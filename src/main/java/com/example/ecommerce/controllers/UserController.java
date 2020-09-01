@@ -46,6 +46,7 @@ public class UserController {
 		cartRepository.save(cart);
 		user.setCart(cart);
 		userRepository.save(user);
+
 		return ResponseEntity.ok(user);
 	}
 
