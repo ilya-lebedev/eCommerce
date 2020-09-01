@@ -1,6 +1,7 @@
 package com.example.ecommerce.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +20,14 @@ import com.example.ecommerce.model.requests.CreateUserRequest;
 public class UserController {
 
 	private UserRepository userRepository;
-
 	private CartRepository cartRepository;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public UserController(UserRepository userRepository, CartRepository cartRepository) {
+	public UserController(UserRepository userRepository, CartRepository cartRepository,
+						  BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userRepository = userRepository;
 		this.cartRepository = cartRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
 	@GetMapping("/id/{id}")
@@ -45,6 +48,13 @@ public class UserController {
 		Cart cart = new Cart();
 		cartRepository.save(cart);
 		user.setCart(cart);
+
+		if (createUserRequest.getPassword().length() < 7 ||
+				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
+			return ResponseEntity.badRequest().build();
+		}
+
+		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
 
 		return ResponseEntity.ok(user);
