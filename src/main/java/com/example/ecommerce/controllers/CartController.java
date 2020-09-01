@@ -1,4 +1,4 @@
-package com.example.demo.controllers;
+package com.example.ecommerce.controllers;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.persistence.Cart;
-import com.example.demo.model.persistence.Item;
-import com.example.demo.model.persistence.User;
-import com.example.demo.model.persistence.repositories.CartRepository;
-import com.example.demo.model.persistence.repositories.ItemRepository;
-import com.example.demo.model.persistence.repositories.UserRepository;
-import com.example.demo.model.requests.ModifyCartRequest;
+import com.example.ecommerce.model.persistence.Cart;
+import com.example.ecommerce.model.persistence.Item;
+import com.example.ecommerce.model.persistence.User;
+import com.example.ecommerce.model.persistence.repositories.CartRepository;
+import com.example.ecommerce.model.persistence.repositories.ItemRepository;
+import com.example.ecommerce.model.persistence.repositories.UserRepository;
+import com.example.ecommerce.model.requests.ModifyCartRequest;
 
 @RestController
 @RequestMapping("/api/cart")
