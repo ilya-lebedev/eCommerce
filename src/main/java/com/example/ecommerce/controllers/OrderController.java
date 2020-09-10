@@ -2,6 +2,7 @@ package com.example.ecommerce.controllers;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import com.example.ecommerce.model.persistence.UserOrder;
 import com.example.ecommerce.model.persistence.repositories.OrderRepository;
 import com.example.ecommerce.model.persistence.repositories.UserRepository;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
@@ -37,6 +39,8 @@ public class OrderController {
 
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		orderRepository.save(order);
+
+		log.info("Order submitted successfully");
 
 		return ResponseEntity.ok(order);
 	}

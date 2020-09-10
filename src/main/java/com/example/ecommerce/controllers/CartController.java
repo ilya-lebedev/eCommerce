@@ -3,6 +3,7 @@ package com.example.ecommerce.controllers;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.example.ecommerce.model.persistence.repositories.ItemRepository;
 import com.example.ecommerce.model.persistence.repositories.UserRepository;
 import com.example.ecommerce.model.requests.ModifyCartRequest;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
@@ -54,6 +56,8 @@ public class CartController {
 			.forEach(i -> cart.addItem(item.get()));
 		cartRepository.save(cart);
 
+		log.info("Added to cart successfully");
+
 		return ResponseEntity.ok(cart);
 	}
 
@@ -75,6 +79,8 @@ public class CartController {
 		IntStream.range(0, request.getQuantity())
 			.forEach(i -> cart.removeItem(item.get()));
 		cartRepository.save(cart);
+
+		log.info("Removed from cart successfully");
 
 		return ResponseEntity.ok(cart);
 	}

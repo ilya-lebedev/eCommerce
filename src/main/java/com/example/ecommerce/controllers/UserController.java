@@ -1,5 +1,6 @@
 package com.example.ecommerce.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import com.example.ecommerce.model.persistence.repositories.CartRepository;
 import com.example.ecommerce.model.persistence.repositories.UserRepository;
 import com.example.ecommerce.model.requests.CreateUserRequest;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -51,11 +53,15 @@ public class UserController {
 
 		if (createUserRequest.getPassword().length() < 7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
+		    log.warn("User not created");
+
 			return ResponseEntity.badRequest().build();
 		}
 
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		user = userRepository.save(user);
+
+		log.info("User created successfully");
 
 		return ResponseEntity.ok(user);
 	}
